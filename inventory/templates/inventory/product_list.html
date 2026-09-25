@@ -1,0 +1,35 @@
+﻿{% extends "base.html" %}
+{% block title %}Inventory{% endblock %}
+{% block content %}
+<h2>Products</h2>
+<p>
+    <a href="{% url 'inventory:product_create' %}">+ Add Product</a> |
+    <a href="{% url 'inventory:category_create' %}">+ Add Category</a>
+</p>
+{% if products %}
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Name</th>
+        <th>SKU</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Low Stock Threshold</th>
+        <th>Actions</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.sku }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.stock_quantity }}</td>
+        <td>{{ product.low_stock_threshold }}</td>
+        <td><a href="{% url 'inventory:product_edit' product.pk %}">Edit</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No products yet.</p>
+{% endif %}
+{% endblock %}

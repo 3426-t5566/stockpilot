@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome, {{ user.username }}</h2>
+<form method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <button type="submit">Log out</button>
+</form>
+<h3>Low Stock Products</h3>
+{% if low_stock %}
+<ul>
+    {% for product in low_stock %}
+    <li>{{ product.name }} — {{ product.stock_quantity }} left (threshold: {{ product.low_stock_threshold }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No products are low on stock.</p>
+{% endif %}
+
+<h3>Recent Orders</h3>
+{% if recent_orders %}
+<ul>
+    {% for order in recent_orders %}
+    <li>Order #{{ order.id }} — {{ order.status }} — {{ order.created_at }} — Total: {{ order.total }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No orders yet.</p>
+{% endif %}
+{% endblock %}
